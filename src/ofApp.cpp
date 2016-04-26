@@ -63,14 +63,7 @@ void ofApp::setupSpout() {
 	bInitialized = false;		        // Spout sender initialization
 	strcpy(sendername, "OF Spout Sender");	// Set the sender name
 	ofSetWindowTitle(sendername);			// show it on the title bar
-											// Create an OpenGL texture for data transfers
-	sendertexture = 0; // make sure the ID is zero for the first time
-	InitGLtexture(sendertexture, ofGetWidth(), ofGetHeight());
-
-	// 3D drawing setup for a sender
-	glEnable(GL_DEPTH_TEST);							// enable depth comparisons and update the depth buffer
-	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
-	ofDisableArbTex();									// needed for textures to work
+											// Create an OpenGL texture for data transfer
 }
 
 void ofApp::setupPsEye() {
@@ -96,22 +89,6 @@ void ofApp::setupPsEye() {
 	else {
 		ofLogError() << "Failed to open PS eye!";
 	}
-}
-
-bool ofApp::InitGLtexture(GLuint &texID, unsigned int width, unsigned int height)
-{
-	if (texID != 0) glDeleteTextures(1, &texID);
-
-	glGenTextures(1, &texID);
-	glBindTexture(GL_TEXTURE_2D, texID);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	return true;
 }
 
 //--------------------------------------------------------------
@@ -147,49 +124,21 @@ void ofApp::drawSpout() {
 	if (!bInitialized) {
 		bInitialized = spoutsender->CreateSender(sendername, ofGetWidth(), ofGetHeight()); // Create the sender
 	}
-	// ===================
-
-
-	// - - - - - - - - - - - - - - - - - - - - - - - - -
-	// Draw 3D graphcs demo - this could be anything
-	/*
-	ofPushMatrix();
-	glTranslatef((float)ofGetWidth() / 2.0, (float)ofGetHeight() / 2.0, 0); // centre
-	//ofRotateY(rotX); // rotate - must be float
-	//ofRotateX(rotY);
-	//myTextureImage.getTextureReference().bind(); // bind our texture
-	ofDrawBox(0.4*(float)ofGetHeight()); // Draw the graphic
-	ofPopMatrix();*/
-	//rotX += 0.5;
-	//rotY += 0.5;
-	// - - - - - - - - - - - - - - - - - - - - - - - - -
 
 	// ====== SPOUT =====
 	if (bInitialized) {
 
-		//if (ofGetWidth() > 0 && ofGetHeight() > 0) { // protect against user minimize
+		const auto& texData = cameraFbo.getTexture().getTextureData();
+		spoutsender->SendTexture(texData.textureID, texData.textureTarget, texData.width, texData.height, false);
 
-													 // Grab the screen into the local spout texture
-			/*glBindTexture(GL_TEXTURE_2D, sendertexture);
-			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, ofGetWidth(), ofGetHeight());
-			glBindTexture(GL_TEXTURE_2D, 0);
-			
-			// Send the texture out for all receivers to use
-			spoutsender->SendTexture(sendertexture, GL_TEXTURE_2D, ofGetWidth(), ofGetHeight());
-			*/
-			const auto& texData = cameraFbo.getTexture().getTextureData();
-			spoutsender->SendTexture(texData.textureID, texData.textureTarget, texData.width, texData.height, false);
+		// Show what it is sending
+		ofSetColor(255);
+		sprintf(str, "Sending as : [%s]", sendername);
+		ofDrawBitmapString(str, 20, 20);
 
-			// Show what it is sending
-			ofSetColor(255);
-			sprintf(str, "Sending as : [%s]", sendername);
-			ofDrawBitmapString(str, 20, 20);
-
-			// Show fps
-			sprintf(str, "fps: %3.3d", (int)ofGetFrameRate());
-			ofDrawBitmapString(str, ofGetWidth() - 120, 20);
-
-		//}
+		// Show fps
+		sprintf(str, "fps: %3.3d", (int)ofGetFrameRate());
+		ofDrawBitmapString(str, ofGetWidth() - 120, 20);
 
 	}
 	// ===================
@@ -245,11 +194,7 @@ void ofApp::mouseExited(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-	// ====== SPOUT =====
-	// Update the sender texture to receive the new dimensions
-	// Change of width and height is handled within the SendTexture function
-	if (w > 0 && h > 0) // protect against user minimize
-		InitGLtexture(sendertexture, w, h);
+
 }
 
 //--------------------------------------------------------------

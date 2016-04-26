@@ -45,7 +45,5 @@ class ofApp : public ofBaseApp{
 
 		void setupSpout();
 
-		bool InitGLtexture(GLuint &texID, unsigned int width, unsigned int height);
-
 		void drawSpout();
 };
