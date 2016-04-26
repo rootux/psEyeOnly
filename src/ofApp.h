@@ -5,6 +5,7 @@
 #include "ofxGui.h"
 #include "ps3eye.h"
 #include "ofxFlowTools.h"
+#include "..\..\..\SpoutSDK\Spout.h" // Spout SDK
 
 using namespace flowTools;
 class ofApp : public ofBaseApp{
@@ -35,5 +36,16 @@ class ofApp : public ofBaseApp{
 
 		void				drawSource() { drawSource(0, 0, ofGetWindowWidth(), ofGetWindowHeight()); }
 		void				drawSource(int _x, int _y, int _width, int _height);
-		
+
+		//Spout
+		SpoutSender *spoutsender; // A sender object
+		char sendername[256];     // Sender name
+		GLuint sendertexture;     // Local OpenGL texture used for sharing
+		bool bInitialized;        // Initialization result
+
+		void setupSpout();
+
+		bool InitGLtexture(GLuint &texID, unsigned int width, unsigned int height);
+
+		void drawSpout();
 };

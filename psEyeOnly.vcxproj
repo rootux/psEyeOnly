@@ -210,6 +210,15 @@
     <ClCompile Include="..\..\..\addons\ofxXmlSettings\libs\tinyxml.cpp" />
     <ClCompile Include="..\..\..\addons\ofxXmlSettings\libs\tinyxmlerror.cpp" />
     <ClCompile Include="..\..\..\addons\ofxXmlSettings\libs\tinyxmlparser.cpp" />
+    <ClCompile Include="..\..\SpoutSDK\SpoutDirectX.cpp" />
+    <ClCompile Include="..\..\SpoutSDK\SpoutGLDXinterop.cpp" />
+    <ClCompile Include="..\..\SpoutSDK\SpoutGLextensions.cpp" />
+    <ClCompile Include="..\..\SpoutSDK\SpoutMemoryShare.cpp" />
+    <ClCompile Include="..\..\SpoutSDK\SpoutReceiver.cpp" />
+    <ClCompile Include="..\..\SpoutSDK\SpoutSDK.cpp" />
+    <ClCompile Include="..\..\SpoutSDK\SpoutSender.cpp" />
+    <ClCompile Include="..\..\SpoutSDK\SpoutSenderNames.cpp" />
+    <ClCompile Include="..\..\SpoutSDK\SpoutSharedMemory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ofApp.h" />
@@ -303,6 +312,17 @@
     <ClInclude Include="..\..\..\addons\ofxOsc\libs\oscpack\src\osc\OscTypes.h" />
     <ClInclude Include="..\..\..\addons\ofxXmlSettings\src\ofxXmlSettings.h" />
     <ClInclude Include="..\..\..\addons\ofxXmlSettings\libs\tinyxml.h" />
+    <ClInclude Include="..\..\SpoutSDK\Spout.h" />
+    <ClInclude Include="..\..\SpoutSDK\SpoutCommon.h" />
+    <ClInclude Include="..\..\SpoutSDK\SpoutDirectX.h" />
+    <ClInclude Include="..\..\SpoutSDK\SpoutGLDXinterop.h" />
+    <ClInclude Include="..\..\SpoutSDK\SpoutGLextensions.h" />
+    <ClInclude Include="..\..\SpoutSDK\SpoutMemoryShare.h" />
+    <ClInclude Include="..\..\SpoutSDK\SpoutReceiver.h" />
+    <ClInclude Include="..\..\SpoutSDK\SpoutSDK.h" />
+    <ClInclude Include="..\..\SpoutSDK\SpoutSender.h" />
+    <ClInclude Include="..\..\SpoutSDK\SpoutSenderNames.h" />
+    <ClInclude Include="..\..\SpoutSDK\SpoutSharedMemory.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(OF_ROOT)\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj">
